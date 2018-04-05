@@ -34,6 +34,8 @@ const strlen = require('../util/strlen')
 const toHost = require('../util/to-host')
 const wait = require('../../../util/output/wait')
 
+import { NowError } from './error'
+
 // $FlowFixMe
 const isTTY = process.stdout.isTTY
 
@@ -531,26 +533,6 @@ async function set(ctx, opts, args, output): Promise<number> {
   }
 
   return 0
-}
-
-type NowErrorArgs<T, M> = {
-  code: T,
-  meta?: M,
-  message?: string
-}
-
-// A generic error to rule them all
-class NowError<T, M = {}> extends Error {
-  meta: M;
-  code: T;
-
-  constructor({ code, message, meta }: NowErrorArgs<T, M>) {
-    super(message)
-    this.code = code;
-    if (meta) {
-      this.meta = meta;
-    }
-  }
 }
 
 async function readFileSafe(file): Promise<string | null> {
